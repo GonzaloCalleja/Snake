@@ -41,6 +41,7 @@ class Grid(Frame):
         self.game_canvas = Canvas(master=self, bg="yellow", height=self.side_len, width=self.side_len)
         # Constrain it to the size of frame
         self.game_canvas.grid(row=0, column=0)
+        # self.game_canvas.attributes("-alpha", .30)
         # Doesn't work, both frame and canvas cannot be seen
         # self.game_canvas.pack(fill=BOTH, expand=YES)
 
@@ -48,7 +49,7 @@ class Grid(Frame):
         self.border = 1
 
         # Initialize snake
-        self.snake = snake.Snake()
+        #self.snake = snake.Snake()
 
         # Calculate the individual tile size depending on the total space, the number of tiles necessary
         # and the border each tile has
