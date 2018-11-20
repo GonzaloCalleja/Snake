@@ -8,14 +8,9 @@ def grow(timer):
         length += 1
 
 
-def move():
-    global x
-    global y
-    c.delete("all")
-    x += velx
-    y += vely
+def borderless():
 
-    c.create_rectangle(x, y, x + size, y+size, fill="blue")
+    global x, y
 
     if x + size > 480:
         c.create_rectangle(0, y, x + size - 480, y+size, fill="blue")
@@ -37,6 +32,54 @@ def move():
         if y + size < 0:
             y = 360 - size
 
+    if x + size > 480 and y + size > 360:
+        c.create_rectangle(0, 0, x + size - 480, y + size - 360, fill="blue")
+        if x > 480 and y > 360:
+            x = 0
+            y = 0
+
+    if x < 0 and y < 0:
+        c.create_rectangle(x + 480, y + 360, x + size + 480, y+size + 360, fill="blue")
+        if x + size < 0 and y + size < 0:
+            x = 480 - size
+            y = 360 - size
+
+    if x + size > 480 and y < 0:
+        c.create_rectangle(0, y + 360, x + size - 480, y + size + 360, fill="blue")
+        if x > 480 and y < 0:
+            x = 0
+            y = 360 - size
+
+    if x < 0 and y + size > 360:
+        c.create_rectangle(x + 480, 0, x + size + 480, y + size - 360, fill="blue")
+        if x + size < 0 and y + size < 0:
+            x = 480 - size
+            y = 0
+
+def move():
+    global x
+    global y
+    global rects
+
+    if velx:
+        c.delete("all")
+        x += velx
+        for i in range(length):
+            rects.pop(i)
+            rects.insert(i, c.create_rectangle(x + size * i, y, x + size + size * i, y + size, fill="blue"))
+
+    if vely:
+        c.delete("all")
+        y += vely
+        for i in range(length):
+            rects.pop(i)
+            rects.insert(i, c.create_rectangle(x , y+ size * i, x + size , y + size+ size * i, fill="blue"))
+
+    no_borders = True
+
+    if no_borders:
+        borderless()
+
     # grow(timer)
     # timer += 1
 
@@ -53,8 +96,10 @@ def key_press(event):
         velx = -change
         vely = 0
     elif pr == "Right":
+        #if y % rows == 0:
         velx = change
         vely = 0
+
     elif pr == "Down":
         velx = 0
         vely = change
@@ -72,18 +117,23 @@ def key_press(event):
 
 tk = t.Tk()
 
-x = 50
-y = 50
+x = 240
+y = 180
 velx = 0
 vely = 0
-length = 2
+length = 10
 timer = 0
-size = 100
+size = 10
+rows = 36
+columns = 48
 
 # c = t.Canvas(tk, bg="#000000", bd=0, width=480, height=360)
 c = t.Canvas(tk, bg="#000000", width=480, height=360)
 
-c.create_rectangle(x, y, x+size, y+size, fill="blue")
+rects = []
+
+for i in range(length):
+    rects.append(c.create_rectangle(x +i*size, y, x+size +i*size, y+size, fill="blue"))
 
 c.focus_set()
 
