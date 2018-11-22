@@ -1,4 +1,14 @@
 
+# first command preference, not order of ifs
+# size 34 the last col and row are smaller - how to fix??
+# clean code!!!
+# walls trespasable, how??
+# code a library'??
+# something that uses data??  (wolfram alpha - cool facts
+# teach machine to play ??
+# apple, snake, wall - level maker
+# key, lock....
+
 import tkinter as t
 import time
 
@@ -7,16 +17,16 @@ class SnakeBlock(object):
 
     def __init__(self, master):
 
-        self.velx = 0
-        self.vely = 0
-        self.x = 100
-        self.y = 100
+        self.size = 10
 
         self.master = master
         self.total_height = self.master.winfo_reqheight()
         self.total_width = self.master.winfo_reqwidth()
 
-        self.size = 10
+        self.velx = 0
+        self.vely = 0
+        self.x = self.size
+        self.y = self.size
 
         self.turn_right = False
         self.turn_left = False
@@ -28,7 +38,7 @@ class SnakeBlock(object):
 
         # colors = ["","red", "blue", "yellow", "green"]
 
-        for i in range(1, 15):
+        for i in range(1, 30):
             self.blocks.append(t.Canvas(master, bg="blue", highlightthickness=0, width=self.size, height=self.size))
             self.blocks[i].place(x=self.x, y=self.y)
 
@@ -122,7 +132,7 @@ class SnakeBlock(object):
         #         self.blocks[0].place(x=self.x, y=self.y)
 
         self.frame += 1
-        tk.after(10, self.move)
+        tk.after(1, self.move)
 
     def key_press(self, event):
 
