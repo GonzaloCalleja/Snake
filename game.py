@@ -31,7 +31,6 @@ class Game():
             with open(path.join(self.dir, HS_FILE), 'r') as f:
                 try:
                     self.highscore = int(f.read())
-                    print(self.highscore)
                 except:
                     self.highscore = 0
         except:
@@ -85,9 +84,9 @@ class Game():
         self.all_sprites.update()
         # check if player hits apple
         hits = pg.sprite.spritecollide(self.snake, self.apples, False)
-        if hits:
-            if not self.apple.eating:
-                for i in range(APPLE_VALUE):
+        for hit in hits:
+            if not hit.eating:
+                for i in range(hit.value):
                     b = Block(self.neck)
                     self.neck = b
                     self.all_sprites.add(b)
@@ -97,8 +96,9 @@ class Game():
 
         # Die!
         hits = pg.sprite.spritecollide(self.snake, self.body, False)
-        if hits:
-            self.playing = False
+        for hit in hits:
+            if not hit.waiting:
+                self.playing = False
 
         if DIE_ON_EDGE:
             if self.snake.rect.right > WIDTH or self.snake.rect.left < 0 or self.snake.rect.bottom > HEIGHT or self.snake.rect.top < 0:

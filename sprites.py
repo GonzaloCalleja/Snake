@@ -60,18 +60,20 @@ class Block(pg.sprite.Sprite):
         self.rect = self.image.get_rect()
 
         self.objectives = []
-        self.wait = 0
+        self.waiting = 1
 
+        self.vel = self.previous.vel
         self.rect.x = self.previous.rect.x
         self.rect.y = self.previous.rect.y
 
     def update(self):
+        self.vel = self.previous.vel
         # So the new block "slides of the previous one
-        self.wait += 1
-        if self.wait < WIDTH//COLUMNS//SNAKE_SPEED + SEP_CHOICE:
+        self.waiting += 1
+        if self.waiting < WIDTH//COLUMNS//SNAKE_SPEED + SEP_CHOICE +1 and self.waiting>1:
             self.objectives.append(vec(self.previous.rect.x, self.previous.rect.y))
             return
-
+        self.waiting = 0
         self.objectives.append(vec(self.previous.rect.x, self.previous.rect.y))
 
         next = self.objectives.pop(0)
@@ -90,6 +92,7 @@ class Apple(pg.sprite.Sprite):
         self.move()
         self.time = None
         self.eating = False
+        self.value = APPLE_VALUE
 
     def move(self):
         occupied = True

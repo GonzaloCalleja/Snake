@@ -7,12 +7,12 @@ HEIGHT = 600
 FPS = 60
 FONT_NAME = 'arial'
 HS_FILE = 'highscore.txt'
-ROWS = 50
-COLUMNS = 50
+ROWS = 10
+COLUMNS = 10
 
 # Snake properties
 INITIAL_POS = ((COLUMNS//2)*(WIDTH/COLUMNS),(ROWS//2)*(HEIGHT/ROWS))
-SNAKE_SPEED = 6
+SNAKE_SPEED = 3
 LOOK = ["Joined", "Separated"]
 DIE_ON_EDGE = True
 #    1 - Joined  2 - Separated by one pixel
