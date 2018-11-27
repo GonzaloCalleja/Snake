@@ -1,3 +1,5 @@
+
+# All settings to control several game posibilities
 # game options
 TITLE = "Snake!"
 WIDTH = 600

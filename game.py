@@ -1,3 +1,10 @@
+
+# class game contains the game logic to:
+# - generate the pygame window
+# - generate a new instance of the game
+# - listen to events, update all sprites and update the display
+# - store highscore in a text file and read it later - currently not working
+
 import pygame as pg
 import random
 from os import path, environ
@@ -131,6 +138,7 @@ class Game():
         if self.score > self.highscore:
             self.highscore = self.score
             self.draw_text("NEW HIGH SCORE!", 22, WHITE, WIDTH / 2, HEIGHT / 2 + 40)
+            print(self.score)
             with open(path.join(self.dir, HS_FILE), 'w') as f:
                 f.write(str(self.score))
         else:

@@ -1,3 +1,5 @@
+
+# Snake Game main: Execute to run program
 from game import Game
 
 g = Game()
