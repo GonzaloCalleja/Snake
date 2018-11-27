@@ -36,12 +36,12 @@ class Game():
         except:
             self.highscore = 0
 
-        if HEIGHT%ROWS != 0 or WIDTH%COLUMNS != 0 or (HEIGHT/ROWS)%SNAKE_SPEED != 0 or (WIDTH/COLUMNS)%SNAKE_SPEED != 0:
+        if HEIGHT % SNAKE_HEIGHT != 0 or WIDTH % SNAKE_WIDTH != 0 or SNAKE_HEIGHT % SNAKE_SPEED != 0 or SNAKE_WIDTH % SNAKE_SPEED != 0:
             self.screen.fill(BLACK)
             self.draw_text("Settings ERROR", 22, RED, WIDTH / 2, HEIGHT/4)
             self.draw_text("The following numbers should be ints: ", 22, RED, WIDTH / 2, HEIGHT *3/ 8 )
-            self.draw_text("HEIGHT / ROWS, WIDTH / COLUMNS,", 20, RED, WIDTH / 2, HEIGHT / 2 )
-            self.draw_text("(HEIGHT / ROWS)/SNAKE_SPEED, (WIDTH / COLUMNS)/SNAKE_SPEED", 20, RED, WIDTH / 2, HEIGHT /2 +50)
+            self.draw_text("HEIGHT / SNAKE_HEIGHT, WIDTH / SNAKE_WIDTH,", 20, RED, WIDTH / 2, HEIGHT / 2 )
+            self.draw_text("SNAKE_HEIGHT / SNAKE_SPEED, SNAKE_WIDTH / SNAKE_SPEED", 20, RED, WIDTH / 2, HEIGHT /2 +50)
             pg.display.flip()
             self.wait_for_key()
 
@@ -97,7 +97,7 @@ class Game():
         # Die!
         hits = pg.sprite.spritecollide(self.snake, self.body, False)
         for hit in hits:
-            if not hit.waiting:
+            if hit.waiting == -1:
                 self.playing = False
 
         if DIE_ON_EDGE:

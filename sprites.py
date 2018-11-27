@@ -7,11 +7,12 @@ import random
 from settings import *
 vec = pg.math.Vector2
 
+
 class Snake(pg.sprite.Sprite):
 
     def __init__(self):
         pg.sprite.Sprite.__init__(self)
-        self.image = pg.Surface((WIDTH / COLUMNS, HEIGHT / ROWS))
+        self.image = pg.Surface((SNAKE_WIDTH, SNAKE_HEIGHT))
         self.image.fill(RED)
         self.rect = self.image.get_rect()
         self.rect.topleft = INITIAL_POS
@@ -32,7 +33,7 @@ class Snake(pg.sprite.Sprite):
         if keys[pg.K_DOWN]:
             self.next = vec(0, SNAKE_SPEED)
 
-        if self.rect.left % (WIDTH/COLUMNS) == 0 and self.rect.top % (HEIGHT/ROWS) == 0 and self.next + self.vel != vec(0,0):
+        if self.rect.left % SNAKE_WIDTH == 0 and self.rect.top % SNAKE_HEIGHT == 0 and self.next + self.vel != vec(0, 0):
             self.vel = self.next
 
         self.rect.left += self.vel.x
@@ -49,18 +50,17 @@ class Snake(pg.sprite.Sprite):
                 self.rect.centery = 0
 
 
-
 class Block(pg.sprite.Sprite):
 
     def __init__(self, previous):
         pg.sprite.Sprite.__init__(self)
-        self.image = pg.Surface((WIDTH / COLUMNS, HEIGHT / ROWS))
+        self.image = pg.Surface((BLOCK_WIDTH, BLOCK_HEIGHT))
         self.image.fill(RED)
         self.previous = previous
         self.rect = self.image.get_rect()
 
         self.objectives = []
-        self.waiting = 1
+        self.waiting = 0
 
         self.vel = self.previous.vel
         self.rect.x = self.previous.rect.x
@@ -68,12 +68,12 @@ class Block(pg.sprite.Sprite):
 
     def update(self):
         self.vel = self.previous.vel
-        # So the new block "slides of the previous one
-        self.waiting += 1
-        if self.waiting < WIDTH//COLUMNS//SNAKE_SPEED + SEP_CHOICE +1 and self.waiting>1:
+
+        if 0 <= self.waiting < SNAKE_PIXEL_SIZE//SNAKE_SPEED + SEP_CHOICE:
+            self.waiting += 1
             self.objectives.append(vec(self.previous.rect.x, self.previous.rect.y))
             return
-        self.waiting = 0
+        self.waiting = -1
         self.objectives.append(vec(self.previous.rect.x, self.previous.rect.y))
 
         next = self.objectives.pop(0)
@@ -85,7 +85,7 @@ class Apple(pg.sprite.Sprite):
 
     def __init__(self, *group_rects):
         pg.sprite.Sprite.__init__(self)
-        self.image = pg.Surface((WIDTH / COLUMNS, HEIGHT / ROWS))
+        self.image = pg.Surface((APPLE_WIDTH, APPLE_HEIGHT))
         self.image.fill(BLUE)
         self.rect = self.image.get_rect()
         self.group_rects = group_rects
@@ -98,8 +98,8 @@ class Apple(pg.sprite.Sprite):
         occupied = True
         while occupied:
             occupied = False
-            x = random.choice(range(0, WIDTH, WIDTH // COLUMNS))
-            y = random.choice(range(0, HEIGHT, HEIGHT // ROWS))
+            x = random.choice(range(0, WIDTH, APPLE_WIDTH))
+            y = random.choice(range(0, HEIGHT, APPLE_HEIGHT))
 
             if (x, y) == INITIAL_POS:
                 occupied = True

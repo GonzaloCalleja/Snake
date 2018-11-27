@@ -7,19 +7,30 @@ HEIGHT = 600
 FPS = 60
 FONT_NAME = 'arial'
 HS_FILE = 'highscore.txt'
-ROWS = 10
-COLUMNS = 10
+
 
 # Snake properties
-INITIAL_POS = ((COLUMNS//2)*(WIDTH/COLUMNS),(ROWS//2)*(HEIGHT/ROWS))
+SNAKE_PIXEL_SIZE = 60
+SNAKE_HEIGHT = SNAKE_PIXEL_SIZE
+SNAKE_WIDTH = SNAKE_PIXEL_SIZE
+ROWS = HEIGHT // SNAKE_HEIGHT
+COLUMNS = WIDTH // SNAKE_WIDTH
+INITIAL_POS = ((COLUMNS//2)*SNAKE_PIXEL_SIZE,(ROWS//2)*SNAKE_PIXEL_SIZE)
 SNAKE_SPEED = 3
-LOOK = ["Joined", "Separated"]
+
 DIE_ON_EDGE = True
-#    1 - Joined  2 - Separated by one pixel
-SEP_CHOICE = 1
+# LOOK = ["Joined", "Separated"]
+#    0 - Joined  1 - Separated by one pixel
+SEP_CHOICE = 0
 
 # apple
 APPLE_VALUE = 1
+APPLE_HEIGHT = SNAKE_PIXEL_SIZE
+APPLE_WIDTH = SNAKE_PIXEL_SIZE
+
+#block
+BLOCK_HEIGHT = SNAKE_PIXEL_SIZE
+BLOCK_WIDTH = SNAKE_PIXEL_SIZE
 
 
 # define colors
