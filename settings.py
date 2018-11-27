@@ -11,12 +11,12 @@ ROWS = 50
 COLUMNS = 50
 
 # Snake properties
-INITIAL_POS = (0,0)
-SNAKE_SPEED = 2
+INITIAL_POS = ((COLUMNS//2)*(WIDTH/COLUMNS),(ROWS//2)*(HEIGHT/ROWS))
+SNAKE_SPEED = 6
 LOOK = ["Joined", "Separated"]
-DIE_ON_EDGE = False
+DIE_ON_EDGE = True
 #    1 - Joined  2 - Separated by one pixel
-SEP_CHOICE = 2
+SEP_CHOICE = 1
 
 # apple
 APPLE_VALUE = 1

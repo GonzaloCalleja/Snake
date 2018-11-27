@@ -14,7 +14,7 @@ class Snake(pg.sprite.Sprite):
         self.image = pg.Surface((WIDTH / COLUMNS, HEIGHT / ROWS))
         self.image.fill(RED)
         self.rect = self.image.get_rect()
-        self.rect.topleft = (0, 0)
+        self.rect.topleft = INITIAL_POS
 
         self.vel = vec(0,0)
         self.next = vec(0,0)
