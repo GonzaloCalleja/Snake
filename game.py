@@ -27,11 +27,15 @@ class Game():
 
     def load_data(self):
         self.dir = path.dirname(__file__)
-        with open(path.join(self.dir, HS_FILE), 'w') as f:
-            try:
-                self.highscore = int(f.read())
-            except:
-                self.highscore = 0
+        try:
+            with open(path.join(self.dir, HS_FILE), 'r') as f:
+                try:
+                    self.highscore = int(f.read())
+                    print(self.highscore)
+                except:
+                    self.highscore = 0
+        except:
+            self.highscore = 0
 
         if HEIGHT/ROWS != HEIGHT//ROWS or WIDTH/COLUMNS != WIDTH//COLUMNS:
             self.screen.fill(BLACK)
@@ -138,7 +142,6 @@ class Game():
         if self.score > self.highscore:
             self.highscore = self.score
             self.draw_text("NEW HIGH SCORE!", 22, WHITE, WIDTH / 2, HEIGHT / 2 + 40)
-            print(self.score)
             with open(path.join(self.dir, HS_FILE), 'w') as f:
                 f.write(str(self.score))
         else:
