@@ -40,14 +40,14 @@ class Snake(pg.sprite.Sprite):
         self.rect.top += self.vel.y
 
         if not DIE_ON_EDGE:
-            if self.rect.centerx < 0:
-                self.rect.centerx = WIDTH
-            if self.rect.centerx > WIDTH:
-                self.rect.centerx = 0
-            if self.rect.centery < 0:
-                self.rect.centery = HEIGHT
-            if self.rect.centery > HEIGHT:
-                self.rect.centery = 0
+            if self.rect.centerx < 0 + W_ADJUST:
+                self.rect.centerx = WIDTH + W_ADJUST
+            if self.rect.centerx > WIDTH + W_ADJUST:
+                self.rect.centerx = 0 + W_ADJUST
+            if self.rect.centery < 0 + H_ADJUST:
+                self.rect.centery = HEIGHT + H_ADJUST
+            if self.rect.centery > HEIGHT + H_ADJUST:
+                self.rect.centery = 0 + H_ADJUST
 
 
 class Block(pg.sprite.Sprite):
@@ -96,7 +96,9 @@ class Apple(pg.sprite.Sprite):
 
     def move(self):
         occupied = True
+        count = 0
         while occupied:
+            count += 1
             occupied = False
             x = random.choice(range(0, WIDTH, APPLE_WIDTH))
             y = random.choice(range(0, HEIGHT, APPLE_HEIGHT))
@@ -105,10 +107,15 @@ class Apple(pg.sprite.Sprite):
                 occupied = True
 
             for a in self.group_rects:
-                for b in a:
-                    if (x, y) == b.rect.topleft:
-                        occupied = True
+                self.rect.topleft = (x, y)
+                hits = pg.sprite.spritecollide(self, a, False)
+                if hits:
+                    occupied = True
+
+            if count > ROWS*COLUMNS:
+                return False
         self.rect.topleft = (x, y)
+        return True
 
     def update(self):
         pass

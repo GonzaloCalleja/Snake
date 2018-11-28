@@ -48,6 +48,7 @@ class Game():
     def new(self):
         # Start a new game
         self.score = 0
+        self.won = False
         self.all_sprites = pg.sprite.Group()
         self.body = pg.sprite.Group()
         self.snake_g = pg.sprite.Group()
@@ -85,13 +86,16 @@ class Game():
         # check if player hits apple
         hits = pg.sprite.spritecollide(self.snake, self.apples, False)
         for hit in hits:
+            if not self.apple.move():
+                self.playing = False
+                self.won = True
             if not hit.eating:
                 for i in range(hit.value):
                     b = Block(self.neck)
                     self.neck = b
                     self.all_sprites.add(b)
                     self.body.add(b)
-                    self.apple.move()
+                    # self.apple.move()
                     self.score += 10
 
         # Die!
@@ -135,8 +139,14 @@ class Game():
         # game over/ continue screen
         if not self.running:
             return
-        #self.screen.fill(BGCOLOR)
-        self.draw_text("GAME OVER", 48, WHITE, WIDTH / 2, HEIGHT / 4)
+
+        if self.won:
+            self.screen.fill(BGCOLOR)
+            self.draw_text("YOU WON!!", 48, WHITE, WIDTH / 2, HEIGHT / 4)
+            self.draw_text("Try a more difficult screen to test your skill", 25, WHITE, WIDTH / 2, HEIGHT * 3/8)
+        else:
+            self.draw_text("GAME OVER", 48, WHITE, WIDTH / 2, HEIGHT / 4)
+
         self.draw_text("Score: " + str(self.score), 22, WHITE, WIDTH / 2, HEIGHT / 2)
         self.draw_text("Press any key to play again", 22, WHITE, WIDTH / 2, HEIGHT * 3 / 4)
         if self.score > self.highscore:

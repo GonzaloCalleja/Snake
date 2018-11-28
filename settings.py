@@ -10,21 +10,28 @@ HS_FILE = 'highscore.txt'
 
 
 # Snake properties
-SNAKE_PIXEL_SIZE = 60
+SNAKE_PIXEL_SIZE = 100
 SNAKE_HEIGHT = SNAKE_PIXEL_SIZE
 SNAKE_WIDTH = SNAKE_PIXEL_SIZE
 ROWS = HEIGHT // SNAKE_HEIGHT
 COLUMNS = WIDTH // SNAKE_WIDTH
-INITIAL_POS = ((COLUMNS//2)*SNAKE_PIXEL_SIZE,(ROWS//2)*SNAKE_PIXEL_SIZE)
-SNAKE_SPEED = 3
+INITIAL_POS = ((COLUMNS//2)*SNAKE_WIDTH,(ROWS//2)*SNAKE_HEIGHT)
+SNAKE_SPEED = 5
 
-DIE_ON_EDGE = True
+# If the speed divided by half the length is not 0,
+# when going through an edge the speed will not place the snake in a
+# correct position by itself
+
+W_ADJUST = (SNAKE_WIDTH /2)%SNAKE_SPEED
+H_ADJUST = (SNAKE_HEIGHT /2)%SNAKE_SPEED
+
+DIE_ON_EDGE = False
 # LOOK = ["Joined", "Separated"]
 #    0 - Joined  1 - Separated by one pixel
-SEP_CHOICE = 0
+SEP_CHOICE = 1
 
 # apple
-APPLE_VALUE = 1
+APPLE_VALUE = 100
 APPLE_HEIGHT = SNAKE_PIXEL_SIZE
 APPLE_WIDTH = SNAKE_PIXEL_SIZE
 
