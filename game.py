@@ -60,9 +60,9 @@ class Game():
         self.snake = Snake()
         self.all_sprites.add(self.snake)
         self.snake_g.add(self.snake)
-        self.neck = Block(self.snake)
-        self.all_sprites.add(self.neck)
-        self.snake_g.add(self.neck)
+        self.tail = Block(self.snake)
+        self.all_sprites.add(self.tail)
+        self.snake_g.add(self.tail)
 
         # For debugging apple pos
         # for i in range(500):
@@ -91,10 +91,10 @@ class Game():
                 self.won = True
             if not hit.eating:
                 for i in range(hit.value):
-                    b = Block(self.neck)
-                    self.neck = b
-                    self.all_sprites.add(b)
-                    self.body.add(b)
+                    new_tail = Block(self.tail)
+                    self.tail = new_tail
+                    self.all_sprites.add(new_tail)
+                    self.body.add(new_tail)
                     # self.apple.move()
                     self.score += 10
 

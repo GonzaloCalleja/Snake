@@ -32,6 +32,8 @@ class Snake(pg.sprite.Sprite):
             self.next = vec(0, -SNAKE_SPEED)
         if keys[pg.K_DOWN]:
             self.next = vec(0, SNAKE_SPEED)
+        if keys[pg.K_SPACE]:
+            self.next = vec(0, 0)
 
         if self.rect.left % SNAKE_WIDTH == 0 and self.rect.top % SNAKE_HEIGHT == 0 and self.next + self.vel != vec(0, 0):
             self.vel = self.next
@@ -68,17 +70,19 @@ class Block(pg.sprite.Sprite):
 
     def update(self):
         self.vel = self.previous.vel
+        (print(self.vel))
 
         if 0 <= self.waiting < SNAKE_PIXEL_SIZE//SNAKE_SPEED + SEP_CHOICE:
             self.waiting += 1
             self.objectives.append(vec(self.previous.rect.x, self.previous.rect.y))
             return
         self.waiting = -1
-        self.objectives.append(vec(self.previous.rect.x, self.previous.rect.y))
+        if self.vel != vec(0, 0):
 
-        next = self.objectives.pop(0)
-        self.rect.x = next.x
-        self.rect.y = next.y
+            self.objectives.append(vec(self.previous.rect.x, self.previous.rect.y))
+            next = self.objectives.pop(0)
+            self.rect.x = next.x
+            self.rect.y = next.y
 
 
 class Apple(pg.sprite.Sprite):
