@@ -8,14 +8,33 @@ from settings import *
 vec = pg.math.Vector2
 
 
+class Spriteheet():
+    # utitlity class for loading and parsing spritesheets
+    def __init__(self, filename):
+        self.spritesheet = pg.image.load(filename).convert()
+
+    def get_image(self, x, y, width, height):
+        # get an image out of a larger sprisheet
+        image = pg.Surface((width, height))
+        image.blit(self.spritesheet, (0, 0), (x, y, width, height))
+        image = pg.transform.scale(image, (SNAKE_HEIGHT, SNAKE_WIDTH))
+        return image
+
+
 class Snake(pg.sprite.Sprite):
 
-    def __init__(self):
+    def __init__(self, spritesheet):
         pg.sprite.Sprite.__init__(self)
         self.image = pg.Surface((SNAKE_WIDTH, SNAKE_HEIGHT))
-        self.image.fill(RED)
+        #self.image.fill(RED)
+        self.image.set_colorkey(BLACK)
         self.rect = self.image.get_rect()
+        self.radius = SNAKE_PIXEL_SIZE // 2+1
+        pg.draw.circle(self.image, DARK_GREEN, self.rect.center, self.radius)
         self.rect.topleft = INITIAL_POS
+
+        self.spritesheet = spritesheet
+
 
         self.vel = vec(0,0)
         self.next = vec(0,0)
@@ -57,9 +76,12 @@ class Block(pg.sprite.Sprite):
     def __init__(self, previous):
         pg.sprite.Sprite.__init__(self)
         self.image = pg.Surface((BLOCK_WIDTH, BLOCK_HEIGHT))
-        self.image.fill(RED)
+        #self.image.fill(RED)
         self.previous = previous
         self.rect = self.image.get_rect()
+        self.image.set_colorkey(BLACK)
+        self.radius = SNAKE_PIXEL_SIZE // 2
+        pg.draw.circle(self.image, DARK_GREEN, self.rect.center, self.radius)
 
         self.objectives = []
         self.waiting = 0
@@ -70,7 +92,6 @@ class Block(pg.sprite.Sprite):
 
     def update(self):
         self.vel = self.previous.vel
-        (print(self.vel))
 
         if 0 <= self.waiting < SNAKE_PIXEL_SIZE//SNAKE_SPEED + SEP_CHOICE:
             self.waiting += 1
@@ -87,11 +108,15 @@ class Block(pg.sprite.Sprite):
 
 class Apple(pg.sprite.Sprite):
 
-    def __init__(self, *group_rects):
+    def __init__(self, spritesheet,  *group_rects):
         pg.sprite.Sprite.__init__(self)
         self.image = pg.Surface((APPLE_WIDTH, APPLE_HEIGHT))
-        self.image.fill(BLUE)
+        #self.image.fill(BLUE)
         self.rect = self.image.get_rect()
+        self.image.set_colorkey(BLACK)
+        self.radius = SNAKE_PIXEL_SIZE // 2
+        pg.draw.circle(self.image, RED, self.rect.center, self.radius)
+
         self.group_rects = group_rects
         self.move()
         self.time = None

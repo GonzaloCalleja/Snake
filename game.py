@@ -11,7 +11,9 @@ from os import path, environ
 from settings import *
 from sprites import *
 
+
 class Game():
+
     def __init__(self):
         # initialize game window, etc
         environ['SDL_VIDEO_CENTERED'] = '1'
@@ -27,6 +29,7 @@ class Game():
 
     def load_data(self):
         self.dir = path.dirname(__file__)
+        self.img_dir = path.join(self.dir, "img")
         try:
             with open(path.join(self.dir, HS_FILE), 'r') as f:
                 try:
@@ -45,6 +48,12 @@ class Game():
             pg.display.flip()
             self.wait_for_key()
 
+        self.background_orig = pg.image.load(path.join(self.img_dir, "grass_background.jpg")).convert()
+        self.background = pg.transform.scale(self.background_orig, (WIDTH, HEIGHT))
+        self.background_rect = self.background.get_rect()
+
+        self.spritesheet = Spriteheet(path.join(self.img_dir, SPRITESHEET))
+
     def new(self):
         # Start a new game
         self.score = 0
@@ -54,10 +63,10 @@ class Game():
         self.snake_g = pg.sprite.Group()
         self.apples = pg.sprite.Group()
 
-        self.apple = Apple(self.body, self.snake_g)
+        self.apple = Apple(self.spritesheet, self.body, self.snake_g)
         self.all_sprites.add(self.apple)
         self.apples.add(self.apple)
-        self.snake = Snake()
+        self.snake = Snake(self.spritesheet)
         self.all_sprites.add(self.snake)
         self.snake_g.add(self.snake)
         self.tail = Block(self.snake)
@@ -108,7 +117,6 @@ class Game():
             if self.snake.rect.right > WIDTH or self.snake.rect.left < 0 or self.snake.rect.bottom > HEIGHT or self.snake.rect.top < 0:
                 self.playing = False
 
-
     def events(self):
         # Game Loop - Events
         for event in pg.event.get():
@@ -119,7 +127,8 @@ class Game():
 
     def draw(self):
         # Game Loop - Draw
-        self.screen.fill(BGCOLOR)
+        # self.screen.fill(BGCOLOR)
+        self.screen.blit(self.background, self.background_rect)
         self.all_sprites.draw(self.screen)
         self.draw_text(str(self.score), 22, WHITE, WIDTH/2, 15 )
         # after drawing - flip
@@ -127,7 +136,8 @@ class Game():
 
     def show_start_screen(self):
         # game start/splash screen
-        self.screen.fill(BGCOLOR)
+        #self.screen.fill(BGCOLOR)
+        self.screen.blit(self.background, self.background_rect)
         self.draw_text(TITLE, 48, WHITE, WIDTH/2, HEIGHT/4)
         self.draw_text("Arrows to move", 22, WHITE, WIDTH / 2, HEIGHT / 2)
         self.draw_text("Press any key to play", 22, WHITE, WIDTH / 2, HEIGHT * 3/4)
@@ -141,7 +151,8 @@ class Game():
             return
 
         if self.won:
-            self.screen.fill(BGCOLOR)
+            #self.screen.fill(BGCOLOR)
+            self.screen.blit(self.background, self.background_rect)
             self.draw_text("YOU WON!!", 48, WHITE, WIDTH / 2, HEIGHT / 4)
             self.draw_text("Try a more difficult screen to test your skill", 25, WHITE, WIDTH / 2, HEIGHT * 3/8)
         else:
