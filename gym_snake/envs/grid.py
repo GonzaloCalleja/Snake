@@ -3,7 +3,6 @@
 # Program to define the Grid object in a snake game
 
 from tkinter import *
-import snake
 
 
 class Grid(Frame):

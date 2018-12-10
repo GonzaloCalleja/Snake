@@ -5,11 +5,8 @@
 # - listen to events, update all sprites and update the display
 # - store highscore in a text file and read it later - currently not working
 
-import pygame as pg
-import random
 from os import path, environ
-from settings import *
-from sprites import *
+from gym_snake.envs.sprites import *
 
 
 class Game():

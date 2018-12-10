@@ -4,7 +4,7 @@
 
 import pygame as pg
 import random
-from settings import *
+from gym_snake.envs.settings import *
 vec = pg.math.Vector2
 
 
